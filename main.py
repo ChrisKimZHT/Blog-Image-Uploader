@@ -48,14 +48,21 @@ def increase_id() -> None:
         print("[ERROR] 文件名配置更新失败")
 
 
-def main():
+def main() -> bool:
+    """程序主逻辑
+
+    :return: 返回True即循环运行，False代表退出程序
+    """
     # 输出信息
     print(f"[INFO] 上传已就绪: {file_name_config['Img_ID']}")
     # 输入图片路径并检测合法性
     while True:
         print("输入图片路径: ", end="")
+        img_dir = input()
+        if img_dir == "q" or img_dir == "Q":
+            return False
         # 替换\为/
-        img_dir = re.compile(r"\\").sub("/", input())
+        img_dir = re.compile(r"\\").sub("/", img_dir)
         # 删除多余引号
         img_dir = re.compile("\"").sub("", img_dir)
         if os.path.exists(img_dir):
@@ -69,7 +76,7 @@ def main():
         print("[INFO] 图片已复制至: " + os.path.join(orig_path, img_name))
     except:
         print("[ERROR] 图片复制失败")
-        return
+        return True
     # 图片转码为WebP
     print("[INFO] 开始图片转码")
     try:
@@ -78,7 +85,7 @@ def main():
         img_name = os.path.basename(new_dir)
     except:
         print("[ERROR] 图片转码失败")
-        return
+        return True
     # 图片上传OSS
     print("[INFO] 开始图片上传")
     try:
@@ -86,14 +93,15 @@ def main():
         print("[INFO] 图片已上传至OSS成功")
     except:
         print("[ERROR] 图片上传至OSS失败")
-        return
+        return True
     # 图片序号+1
     increase_id()
+    return True
 
 
 if __name__ == "__main__":
     if load_file_name_config():
-        while True:
-            main()
+        while main():
+            pass
     else:
         print("[WARNING] 请修改文件名配置再运行程序。")
