@@ -54,7 +54,10 @@ def main():
     # 输入图片路径并检测合法性
     while True:
         print("输入图片路径: ", end="")
+        # 替换\为/
         img_dir = re.compile(r"\\").sub("/", input())
+        # 删除多余引号
+        img_dir = re.compile("\"").sub("", img_dir)
         if os.path.exists(img_dir):
             break
         print("[ERROR] 路径异常，请重新输入。")
