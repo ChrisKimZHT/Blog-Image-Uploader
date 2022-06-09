@@ -1,6 +1,10 @@
 .idea
-Images
+Images/Original/*
+Images/WebP/*
+!Images/Original/.gitkeep
+!Images/WebP/.gitkeep
 oss_config.yaml
+id_config.yaml
 
 ### Python template
 # Byte-compiled / optimized / DLL files
