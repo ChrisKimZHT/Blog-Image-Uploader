@@ -5,6 +5,7 @@ Images/WebP/*
 !Images/WebP/.gitkeep
 oss_config.yaml
 id_config.yaml
+run.bat
 
 ### Python template
 # Byte-compiled / optimized / DLL files
