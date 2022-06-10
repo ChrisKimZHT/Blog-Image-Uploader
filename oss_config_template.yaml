@@ -1,5 +1,12 @@
+# AccessKey ID
 ID: ""
+# AccessKey Secret
 Secret: ""
+# Bucket名
 Bucket: ""
+# Bucket链接（不包含Bucket名）
 Endpoint: ""
+# 上传到的OSS目录（开头无/，如test/）
 Directory: ""
+# 外链链接（结尾无/，不填将使用Bucket Name和Endpoint拼接）
+Link: ""

@@ -91,8 +91,8 @@ def main() -> bool:
     # 图片上传OSS
     print("[INFO] 开始图片上传")
     try:
-        upload_file(os.path.join(webp_path, img_name))
-        print("[INFO] 图片已上传至OSS成功")
+        link = upload_file(os.path.join(webp_path, img_name))
+        print(f"[INFO] 图片已上传至OSS成功: {link}")
     except:
         print("[ERROR] 图片上传至OSS失败")
         return True
