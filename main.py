@@ -16,22 +16,24 @@ orig_path = "Images/Original/"
 webp_path = "Images/WebP/"
 
 
-def load_file_name_config() -> bool:
-    """加载文件名配置，读取得到文章ID和当前图片序号
-
-    :return: 是否读取成功
-    """
+def load_file_name_config() -> None:
+    """加载文件名配置，读取得到文章ID和当前图片序号"""
     global file_name_config
     try:
         with open("id_config.yaml", "r") as temp_config_file:
             file_name_config = yaml.safe_load(temp_config_file)
         print(f"[INFO] 文件名配置读取成功: {file_name_config['Post_ID']}-{file_name_config['Img_ID']}")
-        return True
+        return
     except FileNotFoundError:
+        print("[ERROR] 未找到文件名配置，开始生成新的文件名配置。")
+        print("设置文章ID: ", end="")
+        file_name_config["Post_ID"] = input()
+        print("设置图片ID起始: ", end="")
+        file_name_config["Img_ID"] = input()
         with open("id_config.yaml", "w") as temp_config_file:
             yaml.safe_dump(file_name_config, temp_config_file)
-        print("[ERROR] 未找到文件名配置，已生成新的临时配置文件。")
-        return False
+        print("[INFO] 文件名配置生成完成")
+        return
 
 
 def increase_id() -> None:
@@ -54,7 +56,7 @@ def main() -> bool:
     :return: 返回True即循环运行，False代表退出程序
     """
     # 输出信息
-    print(f"[INFO] 上传已就绪: {file_name_config['Img_ID']}")
+    print(f"[INFO] 上传已就绪: {file_name_config['Post_ID']}-{file_name_config['Img_ID']}")
     # 输入图片路径并检测合法性
     while True:
         print("输入图片路径: ", end="")
@@ -100,8 +102,6 @@ def main() -> bool:
 
 
 if __name__ == "__main__":
-    if load_file_name_config():
-        while main():
-            pass
-    else:
-        print("[WARNING] 请修改文件名配置再运行程序。")
+    load_file_name_config()
+    while main():
+        pass
