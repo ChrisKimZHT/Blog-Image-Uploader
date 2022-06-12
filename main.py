@@ -60,6 +60,7 @@ def main():
         print("1. 普通上传\n"
               "2. 封面上传\n"
               "3. 覆盖上传\n"
+              "4. 自定义上传\n"
               "0. 退出\n"
               "选择上传模式：", end="")
         choose = input()
@@ -73,6 +74,9 @@ def main():
                 pass
         elif choose == "3":
             while overwrite_upload():
+                pass
+        elif choose == "4":
+            while costom_upload():
                 pass
         else:
             print("输入异常。请重新输入")
@@ -184,6 +188,30 @@ def cover_upload() -> bool:
     :return: 返回真则继续循环，假停止循环
     """
     log.info("开始封面上传")
+    # 输出信息
+    print(f"上传已就绪: {id_config['Post_ID']}-FI")
+    # 输入图片路径并检测合法性
+    print("输入图片路径: ", end="")
+    input_str = input()
+    if input_str == "q" or input_str == "Q":  # q键退出
+        return False
+    img_dir = check(input_str)
+    if img_dir == "":  # 异常退出
+        return False
+    # 复制图片到/Images/Original
+    ori_img_dir = copy(id_config["Post_ID"], "FI", img_dir)
+    if ori_img_dir == "":  # 异常退出
+        return False
+    # 图片转码为WebP
+    webp_img_dir = convert(ori_img_dir)
+    if webp_img_dir == "":  # 异常退出
+        return False
+    # 图片上传OSS
+    link = upload(webp_img_dir)
+    if link == "":  # 异常退出
+        return False
+    # 完成
+    return True
 
 
 def overwrite_upload() -> bool:
@@ -192,6 +220,70 @@ def overwrite_upload() -> bool:
     :return: 返回真则继续循环，假停止循环
     """
     log.info("开始覆盖上传")
+    # 选择需要覆盖的图片
+    print("选择需要覆盖的图片ID: ", end="")
+    overwrite_id = input()
+    # 输出信息
+    print(f"上传已就绪: {id_config['Post_ID']}-{overwrite_id}")
+    # 输入图片路径并检测合法性
+    print("输入图片路径: ", end="")
+    input_str = input()
+    if input_str == "q" or input_str == "Q":  # q键退出
+        return False
+    img_dir = check(input_str)
+    if img_dir == "":  # 异常退出
+        return False
+    # 复制图片到/Images/Original
+    ori_img_dir = copy(id_config["Post_ID"], overwrite_id, img_dir)
+    if ori_img_dir == "":  # 异常退出
+        return False
+    # 图片转码为WebP
+    webp_img_dir = convert(ori_img_dir)
+    if webp_img_dir == "":  # 异常退出
+        return False
+    # 图片上传OSS
+    link = upload(webp_img_dir)
+    if link == "":  # 异常退出
+        return False
+    # 完成
+    return True
+
+
+def costom_upload():
+    """自定义上传
+
+    :return: 返回真则继续循环，假停止循环
+    """
+    log.info("开始自定义上传")
+    # 选择需要覆盖的图片
+    print("选择需要上传的文件ID: ", end="")
+    post_id = input()
+    print("选择需要上传的图片ID: ", end="")
+    img_id = input()
+    # 输出信息
+    print(f"上传已就绪: {post_id}-{img_id}")
+    # 输入图片路径并检测合法性
+    print("输入图片路径: ", end="")
+    input_str = input()
+    if input_str == "q" or input_str == "Q":  # q键退出
+        return False
+    img_dir = check(input_str)
+    if img_dir == "":  # 异常退出
+        return False
+    # 复制图片到/Images/Original
+    ori_img_dir = copy(post_id, img_id, img_dir)
+    if ori_img_dir == "":  # 异常退出
+        return False
+    # 图片转码为WebP
+    webp_img_dir = convert(ori_img_dir)
+    if webp_img_dir == "":  # 异常退出
+        return False
+    # 图片上传OSS
+    link = upload(webp_img_dir)
+    if link == "":  # 异常退出
+        return False
+    # 完成
+    return True
 
 
 if __name__ == "__main__":
