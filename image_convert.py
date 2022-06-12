@@ -1,5 +1,6 @@
 import os
 from PIL import Image
+from logger import log
 
 
 def to_webp(original_file: str, webp_path: str) -> str:
@@ -12,4 +13,5 @@ def to_webp(original_file: str, webp_path: str) -> str:
     ori = Image.open(original_file)
     path = os.path.join(webp_path, os.path.splitext(os.path.basename(original_file))[0] + ".webp")
     ori.save(path, "WEBP")
+    log.info(f"图片转换完成: {path}")
     return path
