@@ -56,6 +56,14 @@ def save_config() -> None:
         yaml.safe_dump(all_config, config_file, sort_keys=False)
 
 
+def increase_id() -> None:
+    global post_config
+    img_id = int(post_config["Img_ID"])
+    img_id += 1
+    post_config["Img_ID"] = "{:02d}".format(img_id)
+    save_config()
+
+
 if os.path.exists("config.yaml"):
     load_config()
 else:
