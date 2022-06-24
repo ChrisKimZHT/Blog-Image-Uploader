@@ -1,135 +1,74 @@
-from config import post_config, increase_id
+from config import post_config, program_config, increase_id
 from oss import upload_file
-from convert import to_webp
+from convert import image_convert
 import re
 import os
 import shutil
 
-orig_path = "Images/Original/"
-webp_path = "Images/WebP/"
 
-
-def check(input_dir: str) -> str:
-    """接受用户输入图片路径且检查合法性，并且进行转换
-
-    :param input_dir: 输入的路径
-    :return: 图片路径
-    """
-    # 替换\为/
-    input_dir = re.compile(r"\\").sub("/", input_dir)
-    # 删除多余引号
-    input_dir = re.compile("\"").sub("", input_dir)
-    if os.path.exists(input_dir):
-        return input_dir
-    return ""
-
-
-def copy(post_id: str, img_id: str, img_dir: str) -> str:
-    """复制图片到/Images/Original
-
-    :param post_id: 文章ID
-    :param img_id: 图片ID
-    :param img_dir: 图片目录
-    :return: 图片路径
-    """
+def process(source_dir: str, new_name_withoud_ext: str) -> bool:
+    # 目录操作
+    source_dir = source_dir.strip()  # 去除首尾多余空格
+    source_dir = re.compile(r"\\").sub("/", source_dir)  # 替换\为/
+    source_dir = re.compile("\"").sub("", source_dir)  # 删除多余引号
+    if not os.path.exists(source_dir):
+        print("文件路径异常")
+        return False
+    # 复制并重命名
+    original_ext = os.path.splitext(source_dir)[-1]  # 图片后缀名
+    renamed_dir = os.path.join(program_config["Original_Path"], new_name_withoud_ext + original_ext)  # 新图片路径
     try:
-        img_name = f"{post_id}-{img_id}{os.path.splitext(img_dir)[-1]}"
-        new_dir = os.path.join(orig_path, img_name)
-        shutil.copy(img_dir, new_dir)
-        print("图片已复制至: " + new_dir)
-        return new_dir
+        shutil.copy(source_dir, renamed_dir)  # 复制文件
+        print(f"文件复制成功: {source_dir} -> {renamed_dir}")
     except:
-        return ""
-
-
-def convert(img_dir: str) -> str:
-    """图片转码为WebP
-
-    :param img_dir: 原图路径
-    :return: 图片路径
-    """
+        print("文件复制失败")
+        return False
+    # 图片转码
+    converted_dir = os.path.join(program_config["WebP_Path"], new_name_withoud_ext + ".webp")  # 转码后图片路径
     try:
-        path = os.path.join(webp_path, os.path.splitext(os.path.basename(img_dir))[0] + ".webp")
-        to_webp(img_dir, path)
-        print("图片已转码至: " + path)
-        return path
+        image_convert(renamed_dir, converted_dir)
+        print(f"图片转码成功: {renamed_dir} -> {converted_dir}")
     except:
-        return ""
-
-
-def upload(img_dir: str) -> str:
-    """上传图片至OSS
-
-    :param img_dir: 原图路径
-    :return:
-    """
+        print("图片转码失败")
+        return False
+    # 图片上传
     try:
-        link = upload_file(img_dir)
-        print(f"图片已上传至OSS成功: {link}")
-        return link
+        link = upload_file(converted_dir)
+        print(f"文件上传成功: {converted_dir} -> {link}")
     except:
-        return ""
-
-
-def common_upload() -> bool:
-    # 输出信息
-    print(f"上传已就绪: {post_config['Post_ID']}-{post_config['Img_ID']}")
-    # 输入图片路径并检测合法性
-    print("输入图片路径: ", end="")
-    input_str = input()
-    if input_str == "q" or input_str == "Q":  # q键退出
+        print("文件上传失败")
         return False
-    img_dir = check(input_str)
-    if img_dir == "":  # 异常退出
-        return False
-    # 复制图片到/Images/Original
-    ori_img_dir = copy(post_config["Post_ID"], post_config["Img_ID"], img_dir)
-    if ori_img_dir == "":  # 异常退出
-        return False
-    # 图片转码为WebP
-    webp_img_dir = convert(ori_img_dir)
-    if webp_img_dir == "":  # 异常退出
-        return False
-    # 图片上传OSS
-    link = upload(webp_img_dir)
-    if link == "":  # 异常退出
-        return False
-    # 图片序号+1
-    increase_id()
     return True
 
 
-def custom_upload() -> bool:
-    print("输入文章ID: ", end="")
-    post_id = input()
-    print("输入图片ID: ", end="")
-    img_id = input()
-    # 输出信息
-    print(f"上传已就绪: {post_id}-{img_id}")
-    # 输入图片路径并检测合法性
-    print("输入图片路径: ", end="")
-    input_str = input()
-    if input_str == "q" or input_str == "Q":  # q键退出
-        return False
-    img_dir = check(input_str)
-    if img_dir == "":  # 异常退出
-        return False
-    # 复制图片到/Images/Original
-    ori_img_dir = copy(post_id, img_id, img_dir)
-    if ori_img_dir == "":  # 异常退出
-        return False
-    # 图片转码为WebP
-    webp_img_dir = convert(ori_img_dir)
-    if webp_img_dir == "":  # 异常退出
-        return False
-    # 图片上传OSS
-    link = upload(webp_img_dir)
-    if link == "":  # 异常退出
-        return False
-    return True
+def common_upload() -> None:
+    while True:
+        new_name_without_ext = post_config['Post_ID'] + "-" + post_config['Img_ID']
+        print("======普通上传======")
+        print(f"上传已就绪，下一张图片: {new_name_without_ext}.webp")
+        directory = input("输入图片路径: ")
+        if directory == "q" or directory == "Q":
+            break
+        if process(directory, new_name_without_ext):
+            increase_id()
+
+
+def custom_upload() -> None:
+    while True:
+        print("======自定上传======")
+        new_name_without_ext = input("输入图片名称(不包含后缀名): ")
+        if new_name_without_ext == "q" or new_name_without_ext == "Q":
+            break
+        directory = input("输入图片路径: ")
+        if directory == "q" or directory == "Q":
+            break
+        process(directory, new_name_without_ext)
 
 
 if __name__ == "__main__":
+    print("===================\n"
+          "Blog Image Uploader\n"
+          "===================")
     while True:
         print("1. 普通上传\n"
               "2. 自定上传\n"
@@ -139,10 +78,8 @@ if __name__ == "__main__":
         if choose == "q" or choose == "Q":
             break
         elif choose == "1":
-            while common_upload():
-                pass
+            common_upload()
         elif choose == "2":
-            while custom_upload():
-                pass
+            custom_upload()
         else:
             print("输入异常.请重新输入")

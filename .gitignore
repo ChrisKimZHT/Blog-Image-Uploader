@@ -4,7 +4,6 @@ Images/WebP/*
 !Images/Original/.gitkeep
 !Images/WebP/.gitkeep
 run.bat
-log.txt
 config.yaml
 
 ### Python template

@@ -42,11 +42,14 @@ def init_config() -> None:
 
 def load_config() -> None:
     global oss_config, post_config, program_config
-    with open("config.yaml", "r") as config_file:
-        all_config = yaml.safe_load(config_file)
-    oss_config = all_config["oss"]
-    post_config = all_config["post"]
-    program_config = all_config["program"]
+    try:
+        with open("config.yaml", "r") as config_file:
+            all_config = yaml.safe_load(config_file)
+        oss_config = all_config["oss"]
+        post_config = all_config["post"]
+        program_config = all_config["program"]
+    except:
+        print("配置文件读取失败，请检查配置文件是否有格式错误")
 
 
 def save_config() -> None:
@@ -55,8 +58,11 @@ def save_config() -> None:
         "post": post_config,
         "program": program_config,
     }
-    with open("config.yaml", "w") as config_file:
-        yaml.safe_dump(all_config, config_file, sort_keys=False)
+    try:
+        with open("config.yaml", "w") as config_file:
+            yaml.safe_dump(all_config, config_file, sort_keys=False)
+    except:
+        print("配置文件保存失败")
 
 
 def increase_id() -> None:
@@ -69,5 +75,6 @@ def increase_id() -> None:
 if os.path.exists("config.yaml"):
     load_config()
 else:
+    print("未找到配置文件，进行配置文件初始化")
     init_config()
     save_config()

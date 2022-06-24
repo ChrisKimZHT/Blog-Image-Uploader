@@ -27,3 +27,7 @@ def upload_file(local_file: str) -> str:
     file_name = os.path.basename(local_file)
     bucket.put_object_from_file(os.path.join(oss_config["Directory"], file_name), local_file)
     return oss_config["Link"] + "/" + oss_config["Directory"] + file_name
+
+
+if not test_bucket():
+    print("OSS Bucket上传测试失败，请检查配置是否正确")
