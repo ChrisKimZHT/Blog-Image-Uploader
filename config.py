@@ -24,20 +24,33 @@ program_config = {
 }
 
 
-def init_config() -> None:
-    print("======OSS设置======")
+def set_oss_config() -> None:
     oss_config["ID"] = input("输入AccessKey ID: ")
     oss_config["Secret"] = input("输入AccessKey Secret: ")
     oss_config["Bucket"] = input("输入Bucket名: ")
     oss_config["Endpoint"] = input("输入Endpoint(不包含Bucket名): ")
     oss_config["Directory"] = input("输入上传路径(开头无/): ")
     oss_config["Link"] = input("输入外链链接(留空则自动拼接): ") or (oss_config["Bucket"] + "." + oss_config["Endpoint"])
-    print("======文章设置======")
+
+
+def set_post_config() -> None:
     post_config["Post_ID"] = input("输入文章ID: ")
     post_config["Img_ID"] = input("输入图片ID: ")
-    print("======程序设置======")
+
+
+def set_program_config() -> None:
     program_config["Original_Path"] = input("输入原图储存路径(留空默认为Images/Original/): ") or "Images/Original/"
     program_config["WebP_Path"] = input("输入WebP储存路径(留空默认为Images/WebP/): ") or "Images/WebP/"
+
+
+def init_config() -> None:
+    print("======OSS设置======")
+    set_oss_config()
+    print("======文章设置======")
+    set_post_config()
+    print("======程序设置======")
+    set_program_config()
+    save_config()
 
 
 def load_config() -> None:
@@ -65,6 +78,26 @@ def save_config() -> None:
         print("配置文件保存失败")
 
 
+def change_config() -> None:
+    while True:
+        print("1. OSS设置\n"
+              "2. 文章设置\n"
+              "3. 程序设置\n"
+              "q. 保存并退出")
+        choice = input("请选择需要修改的项目: ")
+        if choice == "q" or choice == "Q":
+            break
+        elif choice == "1":
+            set_oss_config()
+        elif choice == "2":
+            set_post_config()
+        elif choice == "3":
+            set_program_config()
+        else:
+            print("输入异常.请重新输入")
+    save_config()
+
+
 def increase_id() -> None:
     global post_config
     img_id = int(post_config["Img_ID"]) + 1
@@ -77,4 +110,3 @@ if os.path.exists("config.yaml"):
 else:
     print("未找到配置文件，进行配置文件初始化")
     init_config()
-    save_config()

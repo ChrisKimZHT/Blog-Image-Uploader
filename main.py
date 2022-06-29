@@ -1,4 +1,4 @@
-from config import post_config, program_config, increase_id
+from config import post_config, program_config, change_config, increase_id
 from oss import upload_file
 from convert import image_convert
 import re
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     while True:
         print("1. 普通上传\n"
               "2. 自定上传\n"
+              "3. 修改设置\n"
               "q. 退出\n"
               "选择上传模式：", end="")
         choose = input()
@@ -81,5 +82,7 @@ if __name__ == "__main__":
             common_upload()
         elif choose == "2":
             custom_upload()
+        elif choose == "3":
+            change_config()
         else:
             print("输入异常.请重新输入")
