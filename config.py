@@ -21,6 +21,7 @@ post_config = {
 program_config = {
     "Original_Path": "",
     "WebP_Path": "",
+    "Use_Move": False,
 }
 
 
@@ -44,6 +45,11 @@ def set_program_config() -> None:
     print("------程序设置------")
     program_config["Original_Path"] = input("输入原图储存路径(留空默认为Images/Original/): ") or "Images/Original/"
     program_config["WebP_Path"] = input("输入WebP储存路径(留空默认为Images/WebP/): ") or "Images/WebP/"
+    temp = input("是否使用移动代替复制来归档图片(Y/N): ")
+    if temp == "Y" or temp == "y":
+        program_config["Use_Move"] = True
+    else:
+        program_config["Use_Move"] = False
 
 
 def init_config() -> None:

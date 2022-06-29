@@ -18,8 +18,12 @@ def process(source_dir: str, new_name_withoud_ext: str) -> bool:
     original_ext = os.path.splitext(source_dir)[-1]  # 图片后缀名
     renamed_dir = os.path.join(program_config["Original_Path"], new_name_withoud_ext + original_ext)  # 新图片路径
     try:
-        shutil.copy(source_dir, renamed_dir)  # 复制文件
-        print(f"文件复制成功: {source_dir} -> {renamed_dir}")
+        if program_config["Use_Move"]:
+            shutil.move(source_dir, renamed_dir)  # 移动文件
+            print(f"文件移动成功: {source_dir} -> {renamed_dir}")
+        else:
+            shutil.copy(source_dir, renamed_dir)  # 复制文件
+            print(f"文件复制成功: {source_dir} -> {renamed_dir}")
     except:
         print("文件复制失败")
         return False
