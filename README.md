@@ -9,8 +9,10 @@
 ### 所需模块
 
 - OSS2
-  - `pip install oss2`
+    - `pip install oss2`
 - Pillow
-  - `pip install pillow`
+    - `pip install pillow`
 - PyYAML
-  - `pip install PyYAML`
+    - `pip install PyYAML`
+- pyperclip
+    - `pip install pyperclip`

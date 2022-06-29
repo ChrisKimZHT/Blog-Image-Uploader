@@ -4,6 +4,7 @@ from convert import image_convert
 import re
 import os
 import shutil
+import pyperclip
 
 
 def process(source_dir: str, new_name_withoud_ext: str) -> bool:
@@ -39,6 +40,8 @@ def process(source_dir: str, new_name_withoud_ext: str) -> bool:
     try:
         link = upload_file(converted_dir)
         print(f"文件上传成功: {converted_dir} -> {link}")
+        pyperclip.copy(link)
+        print("链接已复制到剪贴板")
     except:
         print("文件上传失败")
         return False
