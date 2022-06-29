@@ -66,10 +66,10 @@ def custom_upload() -> None:
 
 
 if __name__ == "__main__":
-    print("===================\n"
-          "Blog Image Uploader\n"
-          "===================")
     while True:
+        print("===================\n"
+              "Blog Image Uploader\n"
+              "===================")
         print("1. 普通上传\n"
               "2. 自定上传\n"
               "3. 修改设置\n"

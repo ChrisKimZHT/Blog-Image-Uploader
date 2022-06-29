@@ -25,6 +25,7 @@ program_config = {
 
 
 def set_oss_config() -> None:
+    print("------OSS设置------")
     oss_config["ID"] = input("输入AccessKey ID: ")
     oss_config["Secret"] = input("输入AccessKey Secret: ")
     oss_config["Bucket"] = input("输入Bucket名: ")
@@ -34,21 +35,21 @@ def set_oss_config() -> None:
 
 
 def set_post_config() -> None:
+    print("------文章设置------")
     post_config["Post_ID"] = input("输入文章ID: ")
     post_config["Img_ID"] = input("输入图片ID: ")
 
 
 def set_program_config() -> None:
+    print("------程序设置------")
     program_config["Original_Path"] = input("输入原图储存路径(留空默认为Images/Original/): ") or "Images/Original/"
     program_config["WebP_Path"] = input("输入WebP储存路径(留空默认为Images/WebP/): ") or "Images/WebP/"
 
 
 def init_config() -> None:
-    print("======OSS设置======")
+    print("======初始设置======")
     set_oss_config()
-    print("======文章设置======")
     set_post_config()
-    print("======程序设置======")
     set_program_config()
     save_config()
 
@@ -80,6 +81,7 @@ def save_config() -> None:
 
 def change_config() -> None:
     while True:
+        print("======修改设置======")
         print("1. OSS设置\n"
               "2. 文章设置\n"
               "3. 程序设置\n"
