@@ -27,18 +27,18 @@ program_config = {
 
 def set_oss_config() -> None:
     print("------OSS设置------")
-    oss_config["ID"] = input("输入AccessKey ID: ")
-    oss_config["Secret"] = input("输入AccessKey Secret: ")
-    oss_config["Bucket"] = input("输入Bucket名: ")
-    oss_config["Endpoint"] = input("输入Endpoint(不包含Bucket名): ")
-    oss_config["Directory"] = input("输入上传路径(开头无/): ")
+    oss_config["ID"] = input("输入AccessKey ID: ") or oss_config["ID"]
+    oss_config["Secret"] = input("输入AccessKey Secret: ") or oss_config["Secret"]
+    oss_config["Bucket"] = input("输入Bucket名: ") or oss_config["Bucket"]
+    oss_config["Endpoint"] = input("输入Endpoint(不包含Bucket名): ") or oss_config["Endpoint"]
+    oss_config["Directory"] = input("输入上传路径(开头无/): ") or oss_config["Directory"]
     oss_config["Link"] = input("输入外链链接(留空则自动拼接): ") or (oss_config["Bucket"] + "." + oss_config["Endpoint"])
 
 
 def set_post_config() -> None:
     print("------文章设置------")
-    post_config["Post_ID"] = input("输入文章ID: ")
-    post_config["Img_ID"] = input("输入图片ID: ")
+    post_config["Post_ID"] = input("输入文章ID: ") or post_config["Post_ID"]
+    post_config["Img_ID"] = input("输入图片ID: ") or post_config["Img_ID"]
 
 
 def set_program_config() -> None:
@@ -96,10 +96,13 @@ def change_config() -> None:
         if choice == "q" or choice == "Q":
             break
         elif choice == "1":
+            print(">若无特殊说明，则留空代表不修改此项<")
             set_oss_config()
         elif choice == "2":
+            print(">若无特殊说明，则留空代表不修改此项<")
             set_post_config()
         elif choice == "3":
+            print(">若无特殊说明，则留空代表不修改此项<")
             set_program_config()
         else:
             print("输入异常.请重新输入")
