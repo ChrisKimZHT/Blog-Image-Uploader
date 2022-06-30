@@ -55,6 +55,10 @@ def set_program_config() -> None:
         "Original_Path"] or "Images/Original/"
     program_config["WebP_Path"] = input("输入WebP储存路径(留空默认为Images/WebP/): ") or program_config[
         "WebP_Path"] or "Images/WebP/"
+    if not os.path.exists(program_config["Original_Path"]):
+        os.makedirs(program_config["Original_Path"])
+    if not os.path.exists(program_config["WebP_Path"]):
+        os.makedirs(program_config["WebP_Path"])
     temp = input("是否使用移动代替复制来归档图片(Y/N): ")
     if temp == "Y" or temp == "y":
         program_config["Use_Move"] = True
