@@ -32,24 +32,36 @@ def set_oss_config() -> None:
     oss_config["Bucket"] = input("输入Bucket名: ") or oss_config["Bucket"]
     oss_config["Endpoint"] = input("输入Endpoint(不包含Bucket名): ") or oss_config["Endpoint"]
     oss_config["Directory"] = input("输入上传路径(开头无/): ") or oss_config["Directory"]
-    oss_config["Link"] = input("输入外链链接(留空则自动拼接): ") or (oss_config["Bucket"] + "." + oss_config["Endpoint"])
+    oss_config["Link"] = input("输入外链链接(留空则自动拼接): ") or oss_config["Link"] or (
+            oss_config["Bucket"] + "." + oss_config["Endpoint"])
+    print("------设置完成------")
+    for item in oss_config.items():
+        print(item[0], ':', item[1])
 
 
 def set_post_config() -> None:
     print("------文章设置------")
-    post_config["Post_ID"] = input("输入文章ID: ") or post_config["Post_ID"]
-    post_config["Img_ID"] = input("输入图片ID: ") or post_config["Img_ID"]
+    post_config["Post_ID"] = input("输入文章ID: ") or post_config["Post_ID"] or "0001"
+    post_config["Img_ID"] = input("输入图片ID: ") or post_config["Img_ID"] or "01"
+    print("------设置完成------")
+    for item in post_config.items():
+        print(item[0], ':', item[1])
 
 
 def set_program_config() -> None:
     print("------程序设置------")
-    program_config["Original_Path"] = input("输入原图储存路径(留空默认为Images/Original/): ") or "Images/Original/"
-    program_config["WebP_Path"] = input("输入WebP储存路径(留空默认为Images/WebP/): ") or "Images/WebP/"
+    program_config["Original_Path"] = input("输入原图储存路径(留空默认为Images/Original/): ") or program_config[
+        "Original_Path"] or "Images/Original/"
+    program_config["WebP_Path"] = input("输入WebP储存路径(留空默认为Images/WebP/): ") or program_config[
+        "WebP_Path"] or "Images/WebP/"
     temp = input("是否使用移动代替复制来归档图片(Y/N): ")
     if temp == "Y" or temp == "y":
         program_config["Use_Move"] = True
     else:
         program_config["Use_Move"] = False
+    print("------设置完成------")
+    for item in program_config.items():
+        print(item[0], ':', item[1])
 
 
 def init_config() -> None:
@@ -88,22 +100,23 @@ def save_config() -> None:
 def change_config() -> None:
     while True:
         print("======修改设置======")
+        print("进入后留空即代表不修改设置")
         print("1. OSS设置\n"
               "2. 文章设置\n"
               "3. 程序设置\n"
+              "4. 重设所有\n"
               "q. 保存并退出")
         choice = input("请选择需要修改的项目: ")
         if choice == "q" or choice == "Q":
             break
         elif choice == "1":
-            print(">若无特殊说明，则留空代表不修改此项<")
             set_oss_config()
         elif choice == "2":
-            print(">若无特殊说明，则留空代表不修改此项<")
             set_post_config()
         elif choice == "3":
-            print(">若无特殊说明，则留空代表不修改此项<")
             set_program_config()
+        elif choice == "4":
+            init_config()
         else:
             print("输入异常.请重新输入")
     save_config()
