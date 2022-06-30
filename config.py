@@ -22,6 +22,7 @@ program_config = {
     "Original_Path": "",
     "WebP_Path": "",
     "Use_Move": False,
+    "Image_Format": "",
 }
 
 
@@ -59,6 +60,7 @@ def set_program_config() -> None:
         program_config["Use_Move"] = True
     else:
         program_config["Use_Move"] = False
+    program_config["Image_Format"] = input("输入图片转码格式(jpeg/png/webp/gif): ") or "webp"
     print("------设置完成------")
     for item in program_config.items():
         print(item[0], ':', item[1])

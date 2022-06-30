@@ -29,7 +29,8 @@ def process(source_dir: str, new_name_withoud_ext: str) -> bool:
         print("文件复制失败")
         return False
     # 图片转码
-    converted_dir = os.path.join(program_config["WebP_Path"], new_name_withoud_ext + ".webp")  # 转码后图片路径
+    converted_dir = os.path.join(program_config["WebP_Path"],
+                                 new_name_withoud_ext + "." + program_config["Image_Format"])  # 转码后图片路径
     try:
         image_convert(renamed_dir, converted_dir)
         print(f"图片转码成功: {renamed_dir} -> {converted_dir}")
@@ -52,7 +53,7 @@ def common_upload() -> None:
     while True:
         new_name_without_ext = post_config['Post_ID'] + "-" + post_config['Img_ID']
         print("======普通上传======")
-        print(f"上传已就绪，下一张图片: {new_name_without_ext}.webp")
+        print(f"上传已就绪，下一张图片: {new_name_without_ext}.{program_config['Image_Format']}")
         directory = input("输入图片路径: ")
         if directory == "q" or directory == "Q":
             break
