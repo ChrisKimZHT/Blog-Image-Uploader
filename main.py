@@ -1,4 +1,4 @@
-from config import post_config, program_config, change_config, increase_id
+from config import post_config, program_config, change_config, get_destination, increase_id
 from oss import upload_file
 from convert import image_convert
 import re
@@ -50,6 +50,7 @@ def process(source_dir: str, new_name_withoud_ext: str) -> bool:
 
 
 def common_upload() -> None:
+    print(f"目的目录: {get_destination()}")
     while True:
         new_name_without_ext = post_config['Post_ID'] + "-" + post_config['Img_ID']
         print("======普通上传======")
@@ -62,6 +63,7 @@ def common_upload() -> None:
 
 
 def custom_upload() -> None:
+    print(f"目的目录: {get_destination()}")
     while True:
         print("======自定上传======")
         new_name_without_ext = input("输入图片名称(不包含后缀名): ")

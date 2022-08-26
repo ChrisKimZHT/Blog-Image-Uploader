@@ -128,6 +128,10 @@ def change_config() -> None:
     save_config()
 
 
+def get_destination() -> str:
+    return "/" + oss_config["Directory"]
+
+
 def increase_id() -> None:
     global post_config
     img_id = int(post_config["Img_ID"]) + 1
