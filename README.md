@@ -6,13 +6,4 @@
 
 这操作又麻烦又浪费时间，因此随手摸了个程序解决这些问题。如果你和我有一样的困扰，可以试下我这渣作。
 
-### 所需模块
-
-- OSS2
-    - `pip install oss2`
-- Pillow
-    - `pip install pillow`
-- PyYAML
-    - `pip install PyYAML`
-- pyperclip
-    - `pip install pyperclip`
+安装模块: `pip install -r requirements.txt`
