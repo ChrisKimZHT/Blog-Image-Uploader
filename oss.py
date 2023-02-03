@@ -1,4 +1,4 @@
-from config import oss_config
+from config import oss_config, program_config
 import oss2
 import os
 
@@ -25,7 +25,8 @@ def upload_file(local_file: str) -> str:
     :return: 上传对象的OSS链接
     """
     file_name = os.path.basename(local_file)
-    bucket.put_object_from_file(os.path.join(oss_config["Directory"], file_name), local_file)
+    bucket.put_object_from_file(os.path.join(oss_config["Directory"], file_name), local_file,
+                                headers={"Content-Type": f"image/{program_config['Image_Format']}"})
     return oss_config["Link"] + "/" + oss_config["Directory"] + file_name
 
 
