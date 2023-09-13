@@ -1,3 +1,4 @@
+import oss2
 from InquirerPy import inquirer
 
 from config.config_model import ConfigModel
@@ -20,8 +21,6 @@ def init_config() -> dict:
             validate=lambda result: len(result) > 0,
             invalid_message="Secret不可为空",
         ).execute()
-
-        # TODO: OSS TEST
         new_config["auth"]["id"] = key_id
         new_config["auth"]["secret"] = key_secret
         ####################################
@@ -48,13 +47,16 @@ def init_config() -> dict:
         ).execute()
         bucket_public_link.removesuffix("/")
         new_config["bucket"]["public_link"] = bucket_public_link
+        oss2.Bucket(oss2.Auth(key_id, key_secret), bucket_endpoint, bucket_name)
+
         ####################################
         print("> 设置完成，更多设置请前往菜单")
-        inquirer.confirm(
-            message="继续?",
-            default=True,
-            confirm_letter="y",
+        inquirer.text(
+            message="按回车继续",
         ).execute()
         return new_config
     except KeyboardInterrupt:
+        exit(0)
+    except oss2.exceptions.ClientError:
+        print("OSS测试失败，请检查配置是否正确")
         exit(0)
