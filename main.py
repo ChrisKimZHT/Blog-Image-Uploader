@@ -3,7 +3,7 @@ from InquirerPy.base.control import Choice
 
 from page.auto_upload import auto_upload
 from page.maunal_upload import manual_upload
-# from page.settings import settings
+from page.settings import settings
 from utils.breadcrumb import print_breadcrumb, push_breadcrumb, pop_breadcrumb
 from utils.clear_screen import clear_screen
 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
             pop_breadcrumb()
         elif action == 2:
             push_breadcrumb("设置")
-            # settings()
+            settings()
             pop_breadcrumb()
         else:
             exit(0)

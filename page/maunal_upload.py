@@ -1,9 +1,9 @@
-from utils.process import process
+from InquirerPy import inquirer
+from InquirerPy.validator import PathValidator
 
 from utils.breadcrumb import print_breadcrumb
 from utils.clear_screen import clear_screen
-from InquirerPy import inquirer
-from InquirerPy.validator import PathValidator
+from utils.process import process
 
 
 def manual_upload() -> None:

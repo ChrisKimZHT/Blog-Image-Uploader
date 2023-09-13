@@ -13,7 +13,6 @@ def print_breadcrumb(sep: str = ">", show_prefix: bool = True) -> None:
         result += f"{sep} "
     result += f" {sep} ".join(breadcrumb_list)
     print(result)
-    print()
 
 
 def push_breadcrumb(breadcrumb: str) -> None:

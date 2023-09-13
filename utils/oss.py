@@ -2,15 +2,17 @@ import os
 
 import oss2
 
-from utils.config import oss_config, program_config
+from config.config_control import config
 
-# 初始化身份验证
-auth = oss2.Auth(oss_config["ID"], oss_config["Secret"])
-# 初始化Bucket
-bucket = oss2.Bucket(auth, oss_config["Endpoint"], oss_config["Bucket"])
+auth = oss2.Auth(config["auth"]["id"], config["auth"]["secret"])  # 初始化身份验证
+bucket = oss2.Bucket(auth, config["bucket"]["endpoint"], config["bucket"]["public_link"])  # 初始化Bucket
 
 
 def test_bucket() -> bool:
+    """
+    OSS测试，将会进行一次上传、下载操作，操作后会删除测试文件
+    :return:
+    """
     try:
         bucket.put_object("BUCKET_TEST_FILE", b"Test File")
         test_object = bucket.get_object("BUCKET_TEST_FILE")
@@ -21,15 +23,18 @@ def test_bucket() -> bool:
 
 
 def upload_file(local_file: str) -> str:
-    """OSS上传文件
-
+    """
+    OSS上传文件
     :param local_file: 本地文件的路径
     :return: 上传对象的OSS链接
     """
     file_name = os.path.basename(local_file)
-    bucket.put_object_from_file(os.path.join(oss_config["Directory"], file_name), local_file,
-                                headers={"Content-Type": f"image/{program_config['Image_Format']}"})
-    return oss_config["Link"] + "/" + oss_config["Directory"] + file_name
+    bucket.put_object_from_file(
+        key=os.path.join(config["upload"]["bucket_dir"], file_name),
+        filename=local_file,
+        headers={"Content-Type": f"image/{config['upload']['trans_format']}"}
+    )
+    return config["bucket"]["public_link"] + "/" + config["upload"]["bucket_dir"] + file_name
 
 
 if not test_bucket():
