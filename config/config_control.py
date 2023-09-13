@@ -35,7 +35,7 @@ def save_config(_config: dict) -> None:
 def update_config(edited_config: dict) -> None:
     global config
     save_config(edited_config)
-    config = load_config()
+    config.update(**edited_config)
 
 
 def increase_id() -> None:
