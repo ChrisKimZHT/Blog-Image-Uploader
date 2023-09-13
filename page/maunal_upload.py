@@ -9,7 +9,7 @@ from InquirerPy.validator import PathValidator
 def manual_upload() -> None:
     while True:
         clear_screen()
-        print_breadcrumb(["首页", "手动模式"])
+        print_breadcrumb()
 
         # 获取上传后的文件名
         try:

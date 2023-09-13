@@ -1,16 +1,17 @@
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 
-from utils.config import change_config
 from page.auto_upload import auto_upload
 from page.maunal_upload import manual_upload
+# from page.settings import settings
+from utils.breadcrumb import print_breadcrumb, push_breadcrumb, pop_breadcrumb
 from utils.clear_screen import clear_screen
-from utils.breadcrumb import print_breadcrumb
 
 if __name__ == "__main__":
+    push_breadcrumb("首页")
     while True:
         clear_screen()
-        print_breadcrumb(["首页"])
+        print_breadcrumb()
         try:
             action = inquirer.select(
                 message="请选择操作:",
@@ -25,10 +26,16 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             exit(0)
         if action == 0:
+            push_breadcrumb("自动模式")
             auto_upload()
+            pop_breadcrumb()
         elif action == 1:
+            push_breadcrumb("手动模式")
             manual_upload()
+            pop_breadcrumb()
         elif action == 2:
-            change_config()
+            push_breadcrumb("设置")
+            # settings()
+            pop_breadcrumb()
         else:
             exit(0)

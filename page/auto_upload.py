@@ -10,7 +10,7 @@ from utils.process import process
 def auto_upload() -> None:
     while True:
         clear_screen()
-        print_breadcrumb(["首页", "自动模式"])
+        print_breadcrumb()
 
         dest_name_without_ext = post_config["Post_ID"] + "-" + post_config["Img_ID"]
         dest_name = dest_name_without_ext + "." + program_config["Image_Format"]
