@@ -46,6 +46,7 @@ def init_config() -> dict:
             validate=lambda result: len(result) > 0,
             invalid_message="公网链接不可为空",
         ).execute()
+        bucket_public_link.removesuffix("/")
         new_config["bucket"]["public_link"] = bucket_public_link
         ####################################
         print("> 设置完成，更多设置请前往菜单")
