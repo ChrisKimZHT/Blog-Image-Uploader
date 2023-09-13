@@ -1,6 +1,8 @@
-from config import oss_config, program_config
-import oss2
 import os
+
+import oss2
+
+from utils.config import oss_config, program_config
 
 # 初始化身份验证
 auth = oss2.Auth(oss_config["ID"], oss_config["Secret"])
