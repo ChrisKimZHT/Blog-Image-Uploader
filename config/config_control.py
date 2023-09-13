@@ -45,9 +45,4 @@ def increase_id() -> None:
     save_config(config)
 
 
-def config_startup_init() -> None:
-    global config
-    config = load_config()
-
-
-config: dict = {}
+config: dict = load_config()

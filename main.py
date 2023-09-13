@@ -1,26 +1,25 @@
+import os
+
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 
-from config.config_control import config_startup_init
+from config.config_control import config
 from page.auto_upload import auto_upload
 from page.maunal_upload import manual_upload
 from page.settings import settings
 from utils.breadcrumb import print_breadcrumb, push_breadcrumb, pop_breadcrumb
-from utils.check_local_dir import check_local_dir
 from utils.clear_screen import clear_screen
-from utils.oss import oss_startup_init, test_bucket
+from utils.oss import test_bucket
 
 
 def init():
     push_breadcrumb("首页")
-    print("加载配置文件...")
-    config_startup_init()
-    print("检查路径...")
-    check_local_dir()
-    print("初始化OSS...")
-    oss_startup_init()
-    print("测试OSS...")
-    test_bucket()
+    original_dir = config["upload"]["local_original_dir"]
+    trans_dir = config["upload"]["local_trans_dir"]
+    os.makedirs(original_dir, exist_ok=True)
+    os.makedirs(trans_dir, exist_ok=True)
+    if not test_bucket():
+        print("Bucket测试未通过，请检查账号")
 
 
 def main():
