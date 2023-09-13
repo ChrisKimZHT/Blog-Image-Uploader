@@ -1,14 +1,26 @@
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 
+from config.config_control import config_startup_init
 from page.auto_upload import auto_upload
 from page.maunal_upload import manual_upload
 from page.settings import settings
 from utils.breadcrumb import print_breadcrumb, push_breadcrumb, pop_breadcrumb
 from utils.clear_screen import clear_screen
+from utils.oss import oss_startup_init, test_bucket
 
-if __name__ == "__main__":
+
+def init():
     push_breadcrumb("首页")
+    print("加载配置文件...")
+    config_startup_init()
+    print("初始化OSS...")
+    oss_startup_init()
+    print("测试OSS...")
+    test_bucket()
+
+
+def main():
     while True:
         clear_screen()
         print_breadcrumb()
@@ -39,3 +51,8 @@ if __name__ == "__main__":
             pop_breadcrumb()
         else:
             exit(0)
+
+
+if __name__ == "__main__":
+    init()
+    main()

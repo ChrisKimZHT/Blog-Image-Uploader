@@ -4,8 +4,19 @@ import oss2
 
 from config.config_control import config
 
-auth = oss2.Auth(config["auth"]["id"], config["auth"]["secret"])  # 初始化身份验证
-bucket = oss2.Bucket(auth, config["bucket"]["endpoint"], config["bucket"]["public_link"])  # 初始化Bucket
+auth: oss2.Auth  # 初始化身份验证
+bucket: oss2.Bucket  # 初始化Bucket
+
+
+def oss_startup_init() -> bool:
+    global auth, bucket
+    try:
+        auth = oss2.Auth(config["auth"]["id"], config["auth"]["secret"])  # 初始化身份验证
+        bucket = oss2.Bucket(auth, config["bucket"]["endpoint"], config["bucket"]["public_link"])  # 初始化Bucket
+        return True
+    except Exception as e:
+        print(f"初始化OSS错误:\n{e}")
+        return False
 
 
 def test_bucket() -> bool:
@@ -35,7 +46,3 @@ def upload_file(local_file: str) -> str:
         headers={"Content-Type": f"image/{config['upload']['trans_format']}"}
     )
     return config["bucket"]["public_link"] + "/" + config["upload"]["bucket_dir"] + file_name
-
-
-if not test_bucket():
-    print("OSS Bucket上传测试失败，请检查配置是否正确")

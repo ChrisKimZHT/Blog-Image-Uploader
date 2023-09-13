@@ -1,12 +1,11 @@
 import os
-import re
 import shutil
 
 import pyperclip
 
-from convert import image_convert
-from utils.oss import upload_file
 from config.config_control import config
+from utils.convert import image_convert
+from utils.oss import upload_file
 
 
 def process(source_dir: str, dest_name_without_ext: str) -> bool:
