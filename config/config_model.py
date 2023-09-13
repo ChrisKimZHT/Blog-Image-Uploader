@@ -12,7 +12,7 @@ class ConfigModel(BaseModel):
         public_link: str = ""
 
     class Upload(BaseModel):
-        bucket_dir: str = "/"
+        bucket_dir: str = ""
         local_original_dir: str = "Images/Original/"
         local_trans_dir: str = "Images/Transcoded/"
         trans_format: str = "webp"
