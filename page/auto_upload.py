@@ -28,3 +28,5 @@ def auto_upload() -> None:
 
         if process(src_path, dest_name_without_ext):
             increase_id()
+
+        inquirer.text(message="按回车继续").execute()

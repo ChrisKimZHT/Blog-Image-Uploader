@@ -31,3 +31,5 @@ def manual_upload() -> None:
             return
 
         process(src_path, dest_name_without_ext)
+
+        inquirer.text(message="按回车继续").execute()
