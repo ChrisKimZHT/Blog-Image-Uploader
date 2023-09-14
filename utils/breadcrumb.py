@@ -12,6 +12,7 @@ def print_breadcrumb(sep: str = ">", show_prefix: bool = True) -> None:
     if show_prefix:
         result += f"{sep} "
     result += f" {sep} ".join(breadcrumb_list)
+    print("Enter: 确定, ↑↓: 选择, Ctrl+C: 取消")
     print(result)
 
 
