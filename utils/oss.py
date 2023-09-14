@@ -17,7 +17,7 @@ def test_bucket() -> bool:
         bucket.put_object("BUCKET_TEST_FILE", b"Test File")
         test_object = bucket.get_object("BUCKET_TEST_FILE")
         bucket.delete_object("BUCKET_TEST_FILE")
-    except oss2.exceptions.ServerError:
+    except:
         return False
     return test_object.read() == b"Test File"
 
