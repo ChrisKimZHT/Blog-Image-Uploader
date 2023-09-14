@@ -1,8 +1,6 @@
 .idea
 Images/Original/*
-Images/WebP/*
-!Images/Original/.gitkeep
-!Images/WebP/.gitkeep
+Images/Transcoded/*
 run.bat
 config.yaml
 

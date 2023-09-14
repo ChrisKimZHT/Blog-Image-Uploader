@@ -1,10 +1,11 @@
 import os
+
 from PIL import Image
 
 
 def image_convert(original_file: str, converted_file: str) -> None:
-    """将图片转换为对应格式，格式取决于参数中的后缀名
-
+    """
+    将图片转换为对应格式，格式取决于参数中的后缀名
     :param original_file: 原图路径
     :param converted_file: 转换后图片路径
     """
