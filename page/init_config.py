@@ -1,13 +1,12 @@
-import oss2
 from InquirerPy import inquirer
 
 from config.config_model import ConfigModel
 
 
-def init_config() -> dict:
+def init_config_page() -> dict:
     new_config = ConfigModel().dict()
     try:
-        print("> 配置文件初始化")
+        print("\n> 配置文件初始化")
         ####################################
         print("> [1] 账号设置")
         key_id = inquirer.text(
@@ -45,18 +44,11 @@ def init_config() -> dict:
             validate=lambda result: len(result) > 0,
             invalid_message="公网链接不可为空",
         ).execute()
-        bucket_public_link.removesuffix("/")
+        bucket_public_link = bucket_public_link.removesuffix("/")
         new_config["bucket"]["public_link"] = bucket_public_link
-        oss2.Bucket(oss2.Auth(key_id, key_secret), bucket_endpoint, bucket_name)
-
         ####################################
         print("> 设置完成，更多设置请前往菜单")
-        inquirer.text(
-            message="按回车继续",
-        ).execute()
+        input("按回车继续")
         return new_config
     except KeyboardInterrupt:
-        exit(0)
-    except oss2.exceptions.ClientError:
-        print("OSS测试失败，请检查配置是否正确")
         exit(0)

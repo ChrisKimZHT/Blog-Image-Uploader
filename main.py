@@ -1,28 +1,46 @@
-import os
-
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
 
-from config.config_control import config
+from config.config_control import init_config
 from page.auto_upload import auto_upload
 from page.maunal_upload import manual_upload
 from page.settings import settings
 from utils.breadcrumb import print_breadcrumb, push_breadcrumb, pop_breadcrumb
 from utils.clear_screen import clear_screen
-from utils.oss import test_bucket
+from utils.init_dirs import init_dirs
+from utils.oss import test_bucket, init_oss
 
 
 def init():
-    push_breadcrumb("首页")
-    original_dir = config["upload"]["local_original_dir"]
-    trans_dir = config["upload"]["local_trans_dir"]
-    os.makedirs(original_dir, exist_ok=True)
-    os.makedirs(trans_dir, exist_ok=True)
-    if not test_bucket():
-        print("Bucket测试未通过，请检查账号")
+    try:
+        flag = True
+        print("读取配置文件...", end=" ")
+        flag &= init_config()
+        print("完成" if flag else "错误")
+        if not flag:
+            raise
+        print("初始化图片目录...", end=" ")
+        flag &= init_dirs()
+        print("完成" if flag else "错误")
+        if not flag:
+            raise
+        print("初始化OSS...", end=" ")
+        flag &= init_oss()
+        print("完成" if flag else "错误")
+        if not flag:
+            raise
+        print("测试OSS...", end=" ")
+        flag &= test_bucket()
+        print("完成" if flag else "错误")
+        if not flag:
+            raise
+    except:
+        print("[!] 程序初始化出现错误，请检查配置")
+        input("按任意键继续...")
 
 
 def main():
+    push_breadcrumb("首页")
     while True:
         clear_screen()
         print_breadcrumb()
