@@ -1,5 +1,6 @@
 from InquirerPy import inquirer
 from InquirerPy.base.control import Choice
+from InquirerPy.utils import color_print, patched_print
 
 from config.config_control import init_config
 from page.auto_upload import auto_upload
@@ -35,7 +36,7 @@ def init():
         if not flag:
             raise
     except:
-        print("[!] 程序初始化出现错误，请检查配置")
+        color_print([("red", "[!] 程序初始化出现错误，请检查配置")])
         input("按任意键继续...")
 
 

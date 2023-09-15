@@ -1,3 +1,5 @@
+from InquirerPy.utils import color_print
+
 breadcrumb_list = []
 
 
@@ -8,12 +10,22 @@ def print_breadcrumb(sep: str = ">", show_prefix: bool = True) -> None:
     :param show_prefix: 是否作为前缀显示
     :return:
     """
-    result = ""
-    if show_prefix:
-        result += f"{sep} "
-    result += f" {sep} ".join(breadcrumb_list)
-    print("Enter: 确定, ↑↓: 选择, Ctrl+C: 取消")
-    print(result)
+    color_print([("#61AFEF", "Enter: "), ("", "确定, "),
+                 ("#61AFEF", "↑ ↓: "), ("", "选择, "),
+                 ("#61AFEF", "Ctrl+C: "), ("", "取消, "), ])
+    prt_list = []
+    first = True
+    for bc in breadcrumb_list:
+        if first:
+            first = False
+            if show_prefix:
+                prt_list.append(("#98C379", f"{sep} "))
+            prt_list.append(("#E5C07B", bc))
+            continue
+        prt_list.append(("#98C379", f" {sep} "))
+        prt_list.append(("#E5C07B", bc))
+    color_print(prt_list)
+    print()
 
 
 def push_breadcrumb(breadcrumb: str) -> None:
