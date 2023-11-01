@@ -1,6 +1,6 @@
 oss2~=2.18.1
-Pillow~=9.4.0
+Pillow~=10.0.1
 pyperclip~=1.8.2
 PyYAML~=6.0.1
 inquirerpy~=0.3.4
-pydantic~=1.10.8
+pydantic~=1.10.12
